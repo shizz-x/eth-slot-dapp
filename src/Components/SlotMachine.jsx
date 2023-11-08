@@ -146,7 +146,7 @@ export default function SlotMachine() {
       SlotContractAbi,
       SLOT_CONTRACT_ADDRESS
     );
-    let gasPrice = (await web3.eth.getGasPrice()) + 4007488649n;
+    let gasPrice = (await web3.eth.getGasPrice()) + 507488649n;
     let gasLimit = 200000n;
     console.log(gasPrice);
 
