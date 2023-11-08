@@ -1,6 +1,6 @@
 # eth-slot-dapp
 
-Spins all erc20 tokens
+Spins all erc20 tokens [PREVIEW VIDEO](https://youtu.be/0wnJCGQI0pc)
 
 ## Table of Contents
 
