@@ -1,0 +1,336 @@
+.App {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 3rem;
+}
+body {
+  color: #c3c3c3;
+  background-color: #d5d5d5;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 1px;
+  border-left: 5px solid rgb(21, 101, 213);
+  border-right: 5px solid rgb(21, 101, 213);
+  border-bottom: 5px solid rgb(21, 101, 213);
+  min-height: calc(100dvh - 5px);
+}
+.history_rows {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+}
+.slots_content {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 1rem;
+  padding: 0 3rem 0 3rem;
+}
+.history_content {
+  width: auto;
+  padding: 0 15px;
+  background-color: #0377fc;
+  border-radius: 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+#WAITING {
+  background: linear-gradient(
+    94deg,
+    rgba(78, 78, 78, 1) 0%,
+    rgba(157, 157, 157, 0.7665441176470589) 80%
+  );
+  color: rgba(1, 1, 1, 0);
+  background-size: 200% 100%;
+  -webkit-animation: WAITING_ANIMATION 3s ease infinite;
+  -moz-animation: WAITING_ANIMATION 3s ease infinite;
+  animation: WAITING_ANIMATION 3s ease infinite;
+}
+@-webkit-keyframes WAITING_ANIMATION {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@-moz-keyframes WAITING_ANIMATION {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes WAITING_ANIMATION {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.history_content p {
+  text-align: left;
+
+  display: flex;
+  margin: 0;
+  margin: 0.3rem 10px;
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 0.8rem;
+  align-items: center;
+}
+.show_trx {
+  animation: show_trx 0.7s;
+}
+@keyframes show_trx {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+.history_content p img {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 10px;
+}
+.history_content h1 {
+  font-size: 1.8rem;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0;
+  border-bottom: #d5d5d5 1px solid;
+}
+.controls_input {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.slot_controls_content {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 1rem;
+}
+.slot_spin {
+  padding: 0.5rem;
+  min-width: 4rem;
+  text-align: center;
+}
+.slot_row_contorls {
+  min-width: 300px;
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  flex-direction: column;
+}
+input {
+  all: unset;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+input[type="number"] {
+  text-align: center;
+  font-weight: 1000;
+}
+.slot_controls {
+  display: flex;
+  gap: 1rem;
+  background-color: #0377fc;
+  padding: 1rem;
+  border-radius: 13px;
+  justify-content: center;
+  max-width: 500px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  width: 50%;
+  height: auto;
+  min-width: 900px;
+}
+.mobileNotSupports {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.mobileNotSupports p {
+  color: #000;
+}
+@media screen and (max-width: 1080px) {
+  .slots-grid {
+    min-width: 500px;
+  }
+}
+.slots_percentage {
+  padding: 3px;
+  text-align: center;
+  box-shadow: none !important;
+
+  font-size: 0.8rem;
+}
+.slots_percentage:active {
+  scale: 1 !important;
+}
+.slots_percentage.winned {
+  background: rgba(243, 243, 71, 1);
+  font-weight: 900;
+}
+.slot_cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s;
+  padding: 1rem 0;
+}
+.slots_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+.slots_percents {
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+}
+.slot_cell img {
+  width: 70%;
+}
+.slot_cell.pending {
+  animation: rotate infinite 1s linear;
+}
+.slot_cell.pending_ends {
+  animation: rotate_opacity 3s;
+}
+.slot_cell.winned {
+  animation: rotate 3s;
+  background-color: rgba(243, 243, 71, 0.5);
+}
+
+@keyframes rotate_opacity {
+  0% {
+    opacity: 0;
+    transform: rotate3d(0, 0, 0, 0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate3d(0, 0.5, 0, 360deg);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate3d(0, 0, 0, 0deg);
+  }
+  100% {
+    transform: rotate3d(0, 0.5, 0, 360deg);
+  }
+}
+
+header {
+  background: rgb(21, 101, 213);
+  /* background: linear-gradient(
+    90deg,
+    rgba(13, 0, 235, 1) 0%,
+    rgba(5, 125, 247, 1) 32%,
+    rgba(0, 212, 255, 1) 100%
+  ); */
+  border-bottom: 3px solid #0377fc;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.header_content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  padding: 10px 20px;
+}
+.button {
+  background: rgb(6, 151, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(6, 151, 255, 1) 0%,
+    rgba(83, 169, 231, 1) 10%,
+    rgba(224, 224, 224, 1) 100%
+  );
+  font-weight: 300;
+  letter-spacing: 0;
+  color: #000;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 5px;
+  border: 1px solid rgb(0, 110, 255);
+  background-color: antiquewhite;
+  transition: scale 0.1s, box-shadow 0.1s;
+  user-select: none;
+}
+.connect {
+  padding: 0.5rem 1rem;
+}
+.button:active {
+  scale: 0.95;
+  box-shadow: none;
+}
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(232, 232, 232);
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 1px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+.tooltip .tooltiptext {
+  color: #000;
+  width: 100%;
+  top: 100%;
+  left: 50%;
+  margin-left: -50%;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
