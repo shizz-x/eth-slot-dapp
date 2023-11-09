@@ -20,9 +20,7 @@ export default function Header() {
   return (
     <header>
       <div className="header_content">
-        <div className="header_logo" onClick={() => approveTokenSpend(10000)}>
-          kakegurui
-        </div>
+        <div className="header_logo">kakegurui</div>
         <div className="header_connect_content">
           <div
             className="button connect tooltip"
