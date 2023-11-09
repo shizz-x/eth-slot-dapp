@@ -36,7 +36,7 @@ export default class GameHistory extends Component {
       SlotContractAbi,
       SLOT_CONTRACT_ADDRESS
     );
-    this.logSubscribtion = this.wscontract.events.allEvents();
+    this.logSubscription = this.wscontract.events.allEvents();
   }
 
   appendNewTransaction(trx, length) {
@@ -82,35 +82,39 @@ export default class GameHistory extends Component {
     this.setState({ transactions: result });
   };
   subscribeToEvents = () => {
+    this.getPreviousTransactions();
     const reconnectionInterval = 15000; // 15 seconds
 
-    setInterval(async () => {
-      console.table(this.logSubscribtion);
+    const subscribeFunction = async () => {
       try {
-        this.logSubscribtion.removeAllListeners();
-        this.logSubscribtion.on("data", (event) => {
+        this.logSubscription.on("data", (event) => {
           console.log("getPreviousTransactions called");
           this.getPreviousTransactions();
         });
 
-        this.logSubscribtion.on("error", (error) => {
+        this.logSubscription.on("error", (error) => {
           console.log("WebSocket error:", error);
         });
       } catch (err) {
         console.log("WebSocket resubscribe error:", err);
       }
+    };
+    subscribeFunction();
+    this.reconnectionIntervalId = setInterval(async () => {
+      if (this.logSubscription) {
+        console.log("resubscribed");
+        await this.logSubscription.resubscribe();
+      }
     }, reconnectionInterval);
   };
   componentDidMount() {
-    this.getPreviousTransactions();
-
+    console.log("ddd");
     this.subscribeToEvents();
   }
 
   componentWillUnmount() {
-    if (this.logSubscribtion) {
-      this.logSubscribtion.unsubscribe();
-    }
+    this.logSubscribtion.unsubscribe();
+    clearInterval(this.reconnectionIntervalId);
   }
   componentDidUpdate() {}
   render() {
