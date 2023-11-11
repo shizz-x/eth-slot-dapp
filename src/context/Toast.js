@@ -8,7 +8,7 @@ export default function Toast({ children }) {
   const toastError = (text) => toast.error(text);
   const toastPromise = async (promise) =>
     await toast.promise(promise, {
-      pending: "Pending..",
+      pending: "Pending...",
       success: "Done 👌",
       error: "Error raised :(",
     });
