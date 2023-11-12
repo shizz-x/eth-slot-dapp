@@ -9,8 +9,13 @@ import { TOKEN_ADDRESS } from "../net/ABI/SpendedTokenAddress";
 import { SlotContractAbi } from "../net/ABI/SlotContracAbi";
 import { SLOT_CONTRACT_ADDRESS } from "../net/ABI/SlotContracAddress";
 import { CHAIN } from "../net/RPC/Info";
+import IconsOfWins from "./IconsOfWins";
+
+import useSound from "use-sound";
+import mySound from "../sounds/sniff.mp3";
 
 export default function SlotMachine() {
+  const [playSound] = useSound(mySound, { volume: 0.1 });
   const { connected, address, web3wss, chainId } = useContext(WalletContext);
   const { toastAlert, toastSucces, toastError, toastPromise } =
     useContext(ToastContext);
@@ -188,7 +193,6 @@ export default function SlotMachine() {
           amount: (decoded.percentage * decoded.amount) / 100n,
           percentage: decoded.percentage,
         });
-        toastSucces("YOU WON");
       } catch (error) {
         let decoded = web3.eth.abi.decodeLog(
           [
@@ -209,7 +213,6 @@ export default function SlotMachine() {
           trx.logs[1].topics
         );
         gameResultsSet({ pending: false, winner: false });
-        toastSucces("YOU LOSE");
       }
     } catch {
       gameResultsSet(null);
@@ -259,8 +262,9 @@ export default function SlotMachine() {
   };
   return (
     <>
+      <IconsOfWins gameResults={gameResults}></IconsOfWins>
       <div className="slots_content">
-        <SlotCell gameResults={gameResults}></SlotCell>
+        <SlotCell playSound={playSound} gameResults={gameResults}></SlotCell>
       </div>
       <div className="slot_controls_content">
         <div className="slot_controls">

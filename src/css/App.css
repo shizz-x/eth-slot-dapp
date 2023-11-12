@@ -3,6 +3,7 @@
   align-items: center;
   flex-direction: column;
   gap: 3rem;
+  overflow-x: hidden;
 }
 body {
   color: #c3c3c3;
@@ -14,12 +15,34 @@ body {
   border-bottom: 5px solid rgb(21, 101, 213);
   min-height: calc(100dvh - 5px);
 }
+
+.icon_of_win {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+  width: 2rem;
+}
+.icons_of_win_content {
+  width: auto;
+  display: flex;
+  padding: 1rem;
+  border-radius: 13px;
+  gap: 2.5rem;
+  justify-content: center;
+  color: #000;
+  font-weight: 900;
+  background-color: #0377fc;
+}
 .history_rows {
   margin: 10px 0;
   display: flex;
   flex-direction: column;
 }
 .slots_content {
+  width: 100%;
+  height: 300px;
   display: flex;
   justify-content: center;
   margin-top: 2rem;
@@ -166,14 +189,6 @@ input[type="number"] {
   flex-direction: column;
 }
 
-.slots-grid {
-  display: grid;
-  grid-template-rows: repeat(3, 1fr);
-  grid-template-columns: repeat(5, 1fr);
-  width: 50%;
-  height: auto;
-  min-width: 900px;
-}
 .mobileNotSupports {
   display: flex;
   flex-direction: column;
@@ -207,22 +222,61 @@ input[type="number"] {
   justify-content: center;
   align-items: center;
   transition: all 1s;
-  padding: 1rem 0;
+  margin: 0 1rem;
 }
 .slots_wrapper {
+  position: absolute;
   width: 100%;
+  align-items: center;
+  min-width: 900px;
+  /* min-height: 350px; */
+  max-height: 450px;
   display: flex;
   justify-content: center;
-  gap: 2rem;
+}
+.slots_web {
+  width: 560px;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column-reverse;
+  min-height: 18rem;
+}
+.flow {
+  animation: flow 1600ms infinite;
+}
+@keyframes flow {
+  0% {
+    transform: translateY(0%);
+  }
+  10% {
+    transform: translateY(-5%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}
+.animated_layer {
+  display: flex;
+  flex-direction: column-reverse;
+  max-height: 18rem;
+}
+.slots_row {
+  min-height: 6rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
 }
 .slots_percents {
-  height: 100%;
   display: flex;
   flex-direction: column-reverse;
   justify-content: space-between;
+  gap: 1rem;
+  margin: 0 3rem;
 }
 .slot_cell img {
-  width: 70%;
+  width: 5rem;
+  height: 5rem;
 }
 .slot_cell.pending {
   animation: rotate infinite 1s linear;
@@ -231,10 +285,19 @@ input[type="number"] {
   animation: rotate_opacity 3s;
 }
 .slot_cell.winned {
-  animation: rotate 3s;
-  background-color: rgba(243, 243, 71, 0.5);
+  animation: scales 1.5s;
 }
-
+@keyframes scales {
+  0% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 @keyframes rotate_opacity {
   0% {
     opacity: 0;

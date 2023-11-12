@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, Component, useState } from "react";
 import xrp from "../Images/xrp.svg";
 import usdt from "../Images/usdt.svg";
 import dash from "../Images/dash.svg";
@@ -8,279 +8,281 @@ import eth from "../Images/eth.svg";
 import btc from "../Images/btc.svg";
 import ltc from "../Images/ltc.svg";
 
-export default function SlotCell({ gameResults }) {
-  const iconsPercents = [xrp, usdt, dash, bnb, ape, ltc, eth, btc];
-  const [currentWinPecent, currentWinPecentSet] = useState("0");
+class SlotCell extends Component {
+  constructor(props) {
+    super(props);
 
-  const percentToIcons = {
-    110: iconsPercents[0],
-    125: iconsPercents[1],
-    150: iconsPercents[2],
-    200: iconsPercents[3],
-    300: iconsPercents[4],
-    400: iconsPercents[5],
-    500: iconsPercents[6],
-    1000: iconsPercents[7],
-  };
+    this.iconsPercents = [xrp, usdt, dash, bnb, ape, ltc, eth, btc];
+    this.percentToIcons = {
+      110: this.iconsPercents[0],
+      125: this.iconsPercents[1],
+      150: this.iconsPercents[2],
+      200: this.iconsPercents[3],
+      300: this.iconsPercents[4],
+      400: this.iconsPercents[5],
+      500: this.iconsPercents[6],
+      1000: this.iconsPercents[7],
+    };
 
-  const [cells, setCells] = useState([]);
+    this.state = {
+      currentWinPecent: "0",
+      cells: [],
+      animate: false,
+    };
+  }
 
-  useEffect(() => {
-    if (gameResults === null) {
-      defaultGameState();
-      currentWinPecentSet("0");
-    } else {
-      if (gameResults.pending) {
-        startGameAnimation();
-      } else if (gameResults.pending === false) {
-        if (gameResults.winner) {
-          generateSlotPosition(
-            true,
-            gameResults.amount,
-            gameResults.percentage.toString()
-          );
-        } else {
-          generateSlotPosition();
+  componentDidMount() {
+    this.defaultGameState();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { gameResults } = this.props;
+
+    if (gameResults !== prevProps.gameResults) {
+      console.log(prevProps);
+      if (gameResults === null) {
+      } else {
+        if (gameResults.pending) {
+          this.startGameAnimation();
         }
       }
     }
-  }, [gameResults]);
+  }
 
-  const startGameAnimation = async () => {
-    currentWinPecentSet("0");
-    let res = [];
+  spin(win = false, percent = null) {
+    this.props.playSound();
+    this.setState({ animate: true });
+    let newValue = [];
+    let prevValue = [];
+    if (win) {
+      const percentParsed = percent.toString();
 
-    for (let index = 0; index < 15; index++) {
-      res.push(
-        <div id={index} key={index} className="slot_cell pending">
-          <img
-            src={
-              iconsPercents[Math.floor(Math.random() * iconsPercents.length)]
+      const winnedIcon = this.percentToIcons[percentParsed];
+
+      setTimeout(() => {
+        function generateWinLine(array, winIcon) {
+          for (let index = 0; index < 5; index++) {
+            let containsIcon = false;
+            if (
+              array[index].props.children.props.src === winIcon ||
+              array[index + 5].props.children.props.src === winIcon ||
+              array[index + 10].props.children.props.src === winIcon
+            ) {
+              containsIcon = true;
             }
-            alt=""
-          />
-        </div>
-      );
-    }
-    setCells(res);
-  };
+            if (!containsIcon) {
+              let position = [index, index + 5, index + 10];
+              let randomIndex =
+                position[Math.floor(Math.random() * position.length)];
+              console.log(array[randomIndex].props.id);
 
-  const generateSlotPosition = async (
-    win = false,
-    amount = null,
-    percent = null
-  ) => {
-    let res = [];
-
-    for (let index = 0; index < 15; index++) {
-      res.push(
-        <div id={index} key={index} className="slot_cell pending_ends">
-          <img
-            src={
-              iconsPercents[Math.floor(Math.random() * iconsPercents.length)]
+              array[randomIndex] = (
+                <div
+                  id={array[randomIndex].props.id}
+                  key={array[randomIndex].props.id}
+                  className="slot_cell winned"
+                >
+                  <img src={winIcon} alt="" />
+                </div>
+              );
+              containsIcon = false;
             }
-            alt=""
-          />
-        </div>
-      );
-    }
-    res.reverse();
-
-    const twoDimensionalRes = [];
-
-    let rows = 3;
-    let columns = 5;
-    const rowIcon = percentToIcons[percent];
-    for (let row = 0; row < rows; row++) {
-      const column = [];
-      for (let col = 0; col < columns; col++) {
-        const index = row * columns + col;
-        if (index < res.length) {
-          column.push(res[index]);
+          }
+          return array;
         }
-      }
-      twoDimensionalRes.push(column);
-    }
-    if (!win) {
-      currentWinPecentSet("0");
-      setCells(twoDimensionalRes);
-      return 0;
-    }
 
-    for (let col = 0; col < columns; col++) {
-      let contains = false;
-      let index = 0;
-      for (let row = 0; row < rows; row++) {
-        if (twoDimensionalRes[row][col].props.children.props.src === rowIcon) {
-          twoDimensionalRes[row][col] = (
-            <div
-              id={twoDimensionalRes[row][col].key}
-              key={twoDimensionalRes[row][col].key}
-              className="slot_cell winned"
-            >
-              <img src={rowIcon} alt="" />
+        for (let index = 0; index < 15; index++) {
+          let randomimage =
+            this.iconsPercents[
+              Math.floor(Math.random() * this.iconsPercents.length)
+            ];
+          while (randomimage === winnedIcon) {
+            randomimage =
+              this.iconsPercents[
+                Math.floor(Math.random() * this.iconsPercents.length)
+              ];
+          }
+
+          newValue.push(
+            <div id={index} key={index} className="slot_cell">
+              <img src={randomimage} alt="" />
             </div>
           );
-          contains = true;
-          break;
         }
-      }
-      if (!contains) {
-        let randIndex = Math.floor(Math.random() * rows);
-        twoDimensionalRes[randIndex][col] = (
-          <div
-            id={twoDimensionalRes[randIndex][col].key}
-            key={twoDimensionalRes[randIndex][col].key}
-            className="slot_cell winned"
-          >
-            <img src={rowIcon} alt="" />
-          </div>
-        );
-      }
-    }
 
-    currentWinPecentSet(percent);
-    setCells(twoDimensionalRes);
+        newValue = generateWinLine(newValue, winnedIcon);
+
+        let currentCellsState = this.state.cells;
+
+        for (let index = 15; index < 30; index++) {
+          let image = currentCellsState[index].props.children.props.src;
+
+          prevValue.push(
+            <div id={index} key={index} className="slot_cell">
+              <img src={image} alt="" />
+            </div>
+          );
+        }
+
+        this.setCells(prevValue.concat(newValue));
+        this.setState({ animate: false });
+      }, 1500);
+    } else {
+      setTimeout(() => {
+        for (let index = 0; index < 15; index++) {
+          let image =
+            this.iconsPercents[
+              Math.floor(Math.random() * this.iconsPercents.length)
+            ];
+
+          newValue.push(
+            <div id={index} key={index} className="slot_cell">
+              <img src={image} alt="" />
+            </div>
+          );
+        }
+
+        let currentCellsState = this.state.cells;
+
+        for (let index = 15; index < 30; index++) {
+          let image = currentCellsState[index].props.children.props.src;
+
+          prevValue.push(
+            <div id={index} key={index} className="slot_cell">
+              <img src={image} alt="" />
+            </div>
+          );
+        }
+
+        this.setCells(prevValue.concat(newValue));
+        this.setState({ animate: false });
+      }, 1500);
+    }
     return 0;
+  }
+
+  startGameAnimation = async () => {
+    this.currentWinPecentSet("0");
+    const intervalId = setInterval(() => {
+      if (this.props.gameResults !== null) {
+        if (this.props.gameResults.pending) {
+          this.spin();
+        } else {
+          if (this.props.gameResults.winner) {
+            console.log("winner");
+            this.spin(true, this.props.gameResults.percentage);
+            setTimeout(() => {
+              this.currentWinPecentSet(this.props.gameResults.percentage);
+              this.spin(true, this.props.gameResults.percentage);
+            }, 1600);
+            clearInterval(intervalId);
+          } else {
+            this.spin();
+            clearInterval(intervalId);
+          }
+        }
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 1600);
+
+    console.log("SPINED");
   };
 
-  const defaultGameState = async () => {
+  defaultGameState = async () => {
     let res = [];
 
-    for (let index = 0; index < 15; index++) {
+    for (let index = 0; index < 30; index++) {
       res.push(
         <div id={index} key={index} className="slot_cell">
           <img
             src={
-              iconsPercents[Math.floor(Math.random() * iconsPercents.length)]
+              this.iconsPercents[
+                Math.floor(Math.random() * this.iconsPercents.length)
+              ]
             }
             alt=""
           />
         </div>
       );
     }
-    setCells(res);
+    this.setCells(res);
   };
 
-  return (
-    <div className="slots_wrapper">
-      <div className="slots_percents">
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "110" ? "winned" : ""
-          }`}
-        >
-          1.1x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "125" ? "winned" : ""
-          }`}
-        >
-          1.25x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "150" ? "winned" : ""
-          }`}
-        >
-          1.5x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "200" ? "winned" : ""
-          }`}
-        >
-          2x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "300" ? "winned" : ""
-          }`}
-        >
-          3x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "400" ? "winned" : ""
-          }`}
-        >
-          4x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "500" ? "winned" : ""
-          }`}
-        >
-          5x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "1000" ? "winned" : ""
-          }`}
-        >
-          10x
-        </div>
-      </div>
-      <div className="slots-grid">{cells}</div>
-      <div className="slots_percents">
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "110" ? "winned" : ""
-          }`}
-        >
-          1.1x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "125" ? "winned" : ""
-          }`}
-        >
-          1.25x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "150" ? "winned" : ""
-          }`}
-        >
-          1.5x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "200" ? "winned" : ""
-          }`}
-        >
-          2x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "300" ? "winned" : ""
-          }`}
-        >
-          3x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "400" ? "winned" : ""
-          }`}
-        >
-          4x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "500" ? "winned" : ""
-          }`}
-        >
-          5x
-        </div>
-        <div
-          className={`button slots_percentage ${
-            currentWinPecent === "1000" ? "winned" : ""
-          }`}
-        >
-          10x
+  currentWinPecentSet = (percent) => {
+    this.setState({ currentWinPecent: percent });
+  };
+
+  setCells = (cells) => {
+    this.setState({ cells });
+  };
+
+  render() {
+    const animate = this.state.animate;
+
+    return (
+      <div className="slots_wrapper">
+        <div className="slots_web">
+          <div className={`animated_layer ${animate ? "flow" : ""}`}>
+            <div className="slots_row">
+              {[
+                this.state.cells[0],
+                this.state.cells[1],
+                this.state.cells[2],
+                this.state.cells[3],
+                this.state.cells[4],
+              ]}
+            </div>
+            <div className="slots_row">
+              {[
+                this.state.cells[5],
+                this.state.cells[6],
+                this.state.cells[7],
+                this.state.cells[8],
+                this.state.cells[9],
+              ]}
+            </div>
+            <div className="slots_row">
+              {[
+                this.state.cells[10],
+                this.state.cells[11],
+                this.state.cells[12],
+                this.state.cells[13],
+                this.state.cells[14],
+              ]}
+            </div>
+            <div className="slots_row">
+              {[
+                this.state.cells[15],
+                this.state.cells[16],
+                this.state.cells[17],
+                this.state.cells[18],
+                this.state.cells[19],
+              ]}
+            </div>
+            <div className="slots_row">
+              {[
+                this.state.cells[20],
+                this.state.cells[21],
+                this.state.cells[22],
+                this.state.cells[23],
+                this.state.cells[24],
+              ]}
+            </div>
+            <div className="slots_row">
+              {[
+                this.state.cells[25],
+                this.state.cells[26],
+                this.state.cells[27],
+                this.state.cells[28],
+                this.state.cells[29],
+              ]}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+
+export default SlotCell;

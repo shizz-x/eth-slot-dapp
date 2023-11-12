@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div>
-      {windowWidth < 650 ? (
+      {windowWidth < 600 ? (
         <div className="mobileNotSupports">
           <Header></Header>
           <p>
