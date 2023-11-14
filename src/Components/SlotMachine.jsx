@@ -68,6 +68,59 @@ export default function SlotMachine() {
     }
   }, [connected]);
 
+  const deposit = async (amountInWei, approveSended = false) => {
+    if (!connected) {
+      toastAlert("Please connect your wallet first.");
+      return 1;
+    }
+
+    if (chainId !== CHAIN.id) {
+      toastAlert("Switch to the " + CHAIN.name);
+      return 1;
+    }
+    const allowed = allowance;
+    console.log("allowed: ", allowed);
+    const web3 = new Web3(window.ethereum);
+    if (
+      parseFloat(allowed) >=
+        parseFloat(web3.utils.fromWei(amountInWei, "ether")) ||
+      approveSended
+    ) {
+      const contract = new web3.eth.Contract(
+        SlotContractAbi,
+        SLOT_CONTRACT_ADDRESS
+      );
+      let gasPrice = (await web3.eth.getGasPrice()) + 1027488649n;
+      let gasLimit = await contract.methods
+        .deposit(amountInWei.toString())
+        .estimateGas({ from: address });
+
+      let trx = await toastPromise(
+        contract.methods
+          .deposit(amountInWei.toString())
+          .send({ from: address, gasPrice: gasPrice, gasLimit: gasLimit })
+      );
+      if (!trx) {
+        toastError("Cannot deposit tokens.");
+        return 1;
+      }
+      let tokenContract = new web3wss.eth.Contract(
+        SpendedTokenAbi,
+        TOKEN_ADDRESS
+      );
+      getTokenBalance(tokenContract, web3wss);
+      getAllowance(tokenContract, web3wss);
+      getWinning(contract, web3wss);
+    } else {
+      const trx = await approve(amountInWei);
+      if (trx !== 1) {
+        web3.eth
+          .getTransactionReceipt(trx.transactionHash)
+          .then(() => deposit(amountInWei, true));
+      }
+    }
+  };
+
   const approve = async (amountInWei) => {
     if (!connected) {
       toastAlert("Please connect your wallet first.");
@@ -80,8 +133,6 @@ export default function SlotMachine() {
     }
 
     const allowed = allowance;
-
-    console.log(amountInWei);
 
     const web3 = new Web3(window.ethereum);
 
@@ -114,7 +165,9 @@ export default function SlotMachine() {
       return 1;
     }
 
-    getAllowance(contract, web3);
+    await getAllowance(contract, web3);
+
+    return trx;
   };
   const play = async (amountInWei) => {
     if (!connected) {
@@ -134,14 +187,16 @@ export default function SlotMachine() {
       }
     }
 
-    const allowed = allowance;
+    const balance = winning;
 
     const web3 = new Web3(window.ethereum);
 
+    console.log(balance);
+
     if (
-      parseFloat(allowed) < parseFloat(web3.utils.fromWei(amountInWei, "ether"))
+      parseFloat(balance) < parseFloat(web3.utils.fromWei(amountInWei, "ether"))
     ) {
-      toastAlert("Please approve more tokens for spinning.");
+      toastAlert("Please deposit more tokens for spinning.");
       return 1;
     }
 
@@ -151,14 +206,15 @@ export default function SlotMachine() {
       SlotContractAbi,
       SLOT_CONTRACT_ADDRESS
     );
-    let gasPrice = (await web3.eth.getGasPrice()) + 507488649n;
+    let gasPrice = (await web3.eth.getGasPrice()) + 157488649n;
     let gasLimit = 200000n;
-    console.log(gasPrice);
+    console.log(gasLimit);
 
     try {
+      console.log("DECODING RESULTS...");
       let trx = await toastPromise(
         contract.methods
-          .play(TOKEN_ADDRESS, amountInWei)
+          .play(amountInWei)
           .send({ from: address, gasPrice: gasPrice, gasLimit: gasLimit })
       );
 
@@ -184,8 +240,8 @@ export default function SlotMachine() {
               type: "uint256",
             },
           ],
-          trx.logs[1].data,
-          trx.logs[1].topics
+          trx.logs[0].data,
+          trx.logs[0].topics
         );
         gameResultsSet({
           pending: false,
@@ -193,6 +249,7 @@ export default function SlotMachine() {
           amount: (decoded.percentage * decoded.amount) / 100n,
           percentage: decoded.percentage,
         });
+        console.log("WINNER");
       } catch (error) {
         let decoded = web3.eth.abi.decodeLog(
           [
@@ -209,13 +266,15 @@ export default function SlotMachine() {
               type: "uint256",
             },
           ],
-          trx.logs[1].data,
-          trx.logs[1].topics
+          trx.logs[0].data,
+          trx.logs[0].topics
         );
         gameResultsSet({ pending: false, winner: false });
+        console.log("LOSER");
       }
-    } catch {
+    } catch (err) {
       gameResultsSet(null);
+      console.log("GLOBAL ERROR.", err);
     }
 
     let tokenContract = new web3wss.eth.Contract(
@@ -281,17 +340,17 @@ export default function SlotMachine() {
 
               <div
                 className="slot_spin button"
-                onClick={() => approve(Web3.utils.toWei(value, "ether"))}
+                onClick={() => deposit(Web3.utils.toWei(value, "ether"))}
               >
-                Approve
+                Deposit
               </div>
             </div>
             <div className="assets">
               <div className="approved_tokens">
-                Allowed tokens to spin: <b>{allowance}</b>
+                Token balance: <b>{tokenBalance}</b>
               </div>
               <div className="approved_tokens">
-                Token balance: <b>{tokenBalance}</b>
+                Allowance: <b>{allowance}</b>
               </div>
             </div>
             <div
@@ -302,7 +361,7 @@ export default function SlotMachine() {
               }}
               className="slot_winnings"
             >
-              <h3>winnings: {winning}</h3>
+              <h3>Avaliable balance: {winning}</h3>
               <div className="slot_spin button" onClick={() => withdraw()}>
                 Withdraw
               </div>

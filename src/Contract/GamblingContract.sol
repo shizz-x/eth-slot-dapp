@@ -15,6 +15,8 @@ contract GamblingContract {
         uint results;
         bool isWinner;
     }
+
+    address gameToken;
   
     uint256 private RandNonce = 0;
     uint[] public payoffs = [0, 110, 125, 150, 200, 300, 400, 500, 1000];
@@ -26,21 +28,16 @@ contract GamblingContract {
     }
     constructor() {
         owner = msg.sender;
+        gameToken = 0x1C67d17f6f5086c837ecAcf35ce44BD9902b4a7e;
     }
-    mapping(address => uint) private userBalances;
+    mapping(address => uint) private userBalance;
     mapping(address => GameResult[]) private userGameHistory;
 
     event Winner(address indexed user, uint percentage, uint amount);
     event Loser(address indexed user, uint amount);
 
-    function play(address tokenAddress, uint256 amount) external {
-        IERC20 token = IERC20(tokenAddress);
-
-        uint256 decimals = token.decimals();
-
-        require(token.balanceOf(address(this)) >= amount, "Pool is empty :)");
-        require(token.allowance(msg.sender, address(this)) > 10**decimals / 1000, "Insufficient balance");
-        require(token.transferFrom(msg.sender, address(this), amount));
+    function play(uint256 amount) external {
+        require(userBalance[msg.sender] >= amount);
 
         uint randomNumber = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, userGameHistory[msg.sender].length, RandNonce))) % 1000000;
         uint percentage = 0;
@@ -76,25 +73,26 @@ contract GamblingContract {
         if (percentage > 0) {
             uint amountOfWin = ((amount * percentage) / 100);
             userGameHistory[msg.sender].push(GameResult(percentage, amountOfWin, randomNumber, true));
-            userBalances[msg.sender] += amountOfWin;
+            userBalance[msg.sender] += amountOfWin;
 
             emit Winner(msg.sender, percentage, amount);
         } else {
+            userBalance[msg.sender] -= amount;
             userGameHistory[msg.sender].push(GameResult(percentage, amount, randomNumber, false));
             emit Loser(msg.sender, amount);
         }
         
         RandNonce ++;
     }
-    function withdraw(address tokenAddress) external {
-        IERC20 token = IERC20(tokenAddress);
-        require(userBalances[msg.sender] > 0, "No winnings");
+    function withdraw() external {
+        IERC20 token = IERC20(gameToken);
+        require(userBalance[msg.sender] > 0);
 
-        uint amount = userBalances[msg.sender];
+        uint amount = userBalance[msg.sender];
         require(token.balanceOf(address(this)) >= amount);
         require(token.transfer(msg.sender, amount));
 
-        userBalances[msg.sender] = 0;
+        userBalance[msg.sender] = 0;
     }
     function ownerWithdraw(address tokenAddress, uint256 amount)  _ownerOnly external {
         IERC20 token = IERC20(tokenAddress);
@@ -103,6 +101,19 @@ contract GamblingContract {
 
         require(token.transfer(msg.sender, amount));
     }
+
+    function deposit(uint256 amount) external{
+        IERC20 token = IERC20(gameToken);
+        
+        require(token.balanceOf(msg.sender) >= amount);
+        require(token.allowance(msg.sender, address(this)) >= amount);
+        require(token.transferFrom(msg.sender, address(this), amount));
+
+        userBalance[msg.sender] += amount;
+
+    }
+
+
     function transferOwner(address newOwner) _ownerOnly public  {
         owner = newOwner;
     }
@@ -110,6 +121,9 @@ contract GamblingContract {
         require(percentage[0] == 0);
         require(percentage.length == 9);
         payoffs = percentage;
+    }
+    function changePlayingToken(address newToken) _ownerOnly public{
+        gameToken = newToken;
     }
     function changePercents(uint[] memory percentage) _ownerOnly public  {
         require(percentage.length == 9);
@@ -119,6 +133,6 @@ contract GamblingContract {
         return userGameHistory[user];
     }
     function getWinning(address user) external view returns (uint) {
-        return userBalances[user];
+        return userBalance[user];
     }
 }

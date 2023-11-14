@@ -37,6 +37,7 @@ export default class GameHistory extends Component {
       SLOT_CONTRACT_ADDRESS
     );
     this.logSubscription = this.wscontract.events.allEvents();
+    this.reconnectionInterval = 5000;
   }
 
   appendNewTransaction(trx, length) {
@@ -63,10 +64,7 @@ export default class GameHistory extends Component {
       fromBlock: previousBlock,
       toBlock: "latest",
     });
-
     events.reverse();
-
-    console.log(events);
 
     let eventsLimit = 10;
 
@@ -83,16 +81,17 @@ export default class GameHistory extends Component {
   };
   subscribeToEvents = () => {
     this.getPreviousTransactions();
-    const reconnectionInterval = 15000; // 15 seconds
+    // 15 seconds
 
-    const subscribeFunction = async () => {
+    const subscribeFunction = () => {
       try {
-        this.logSubscription.on("data", (event) => {
-          console.log("getPreviousTransactions called");
+        this.logSubscription.once("data", (event) => {
+          this.web3wss.subscriptionManager.clear();
           this.getPreviousTransactions();
+          subscribeFunction();
         });
 
-        this.logSubscription.on("error", (error) => {
+        this.logSubscription.once("error", (error) => {
           console.log("WebSocket error:", error);
         });
       } catch (err) {
@@ -100,20 +99,27 @@ export default class GameHistory extends Component {
       }
     };
     subscribeFunction();
-    this.reconnectionIntervalId = setInterval(async () => {
-      if (this.logSubscription) {
-        console.log("resubscribed");
-        await this.logSubscription.resubscribe();
-      }
-    }, reconnectionInterval);
   };
   componentDidMount() {
-    console.log("ddd");
     this.subscribeToEvents();
+    this.reconnectionIntervalId = setInterval(async () => {
+      if (this.logSubscription) {
+        try {
+          this.web3wss.eth
+            .getBlockNumber()
+            .then((block) => console.table({ "Connection OK": block }));
+        } catch (err) {
+          console.table({ "Connection ERROR": err });
+          clearInterval(this.reconnectionIntervalId);
+          this.web3wss.subscriptionManager.clear();
+          this.subscribeToEvents();
+        }
+      }
+    }, this.reconnectionInterval);
   }
 
   componentWillUnmount() {
-    this.logSubscribtion.unsubscribe();
+    this.web3wss.subscriptionManager.clear();
     clearInterval(this.reconnectionIntervalId);
   }
   componentDidUpdate() {}
