@@ -1,6 +1,6 @@
 ### eth-slot-dapp
 
-# [build](https://shizz-x.github.io/eth-slot-dapp/build/
+# [build](https://shizz-x.github.io/eth-slot-dapp/build/)
 # private key for test - 0x3ac9DFFb3129fEE0258F09b0aC1715747f3b4c46
 # [sepolia](https://sepolia.etherscan.io/address/0xB2FF2a48cB6E1FeE09d2dd3a38175eC65d51dA38)
 
