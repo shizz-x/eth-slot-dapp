@@ -1,12 +1,12 @@
 import React from "react";
-import xrp from "../Images/xrp.svg";
-import usdt from "../Images/usdt.svg";
-import dash from "../Images/dash.svg";
-import ape from "../Images/ape.svg";
-import bnb from "../Images/bnb.svg";
-import eth from "../Images/eth.svg";
-import btc from "../Images/btc.svg";
-import ltc from "../Images/ltc.svg";
+import xrp from "../Media/Images/xrp.svg";
+import usdt from "../Media/Images/usdt.svg";
+import dash from "../Media/Images/dash.svg";
+import ape from "../Media/Images/ape.svg";
+import bnb from "../Media/Images/bnb.svg";
+import eth from "../Media/Images/eth.svg";
+import btc from "../Media/Images/btc.svg";
+import ltc from "../Media/Images/ltc.svg";
 
 export default function IconsOfWins() {
   const iconsPercents = [xrp, usdt, dash, bnb, ape, ltc, eth, btc];

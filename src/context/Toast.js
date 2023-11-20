@@ -18,7 +18,7 @@ export default function Toast({ children }) {
       value={{ toastAlert, toastSucces, toastError, toastPromise }}
     >
       <ToastContainer
-        position={toast.POSITION.BOTTOM_RIGHT}
+        position={toast.POSITION.TOP_RIGHT}
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

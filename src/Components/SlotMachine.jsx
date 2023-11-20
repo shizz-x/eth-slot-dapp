@@ -12,7 +12,7 @@ import { CHAIN } from "../net/RPC/Info";
 import IconsOfWins from "./IconsOfWins";
 
 import useSound from "use-sound";
-import mySound from "../sounds/sniff.mp3";
+import mySound from "../Media/Sounds/sniff.mp3";
 
 export default function SlotMachine() {
   const [playSound] = useSound(mySound, { volume: 0.1 });
@@ -330,7 +330,7 @@ export default function SlotMachine() {
           <div className="slot_row_contorls">
             <div className="controls_input">
               <div
-                className="slot_spin button"
+                className="slot_spin button windows-button"
                 onClick={() => play(Web3.utils.toWei(value, "ether"))}
               >
                 Spin
@@ -339,7 +339,7 @@ export default function SlotMachine() {
               <input type="number" value={value} onChange={changeValue} />
 
               <div
-                className="slot_spin button"
+                className="slot_spin button windows-button"
                 onClick={() => deposit(Web3.utils.toWei(value, "ether"))}
               >
                 Deposit
@@ -362,7 +362,7 @@ export default function SlotMachine() {
               className="slot_winnings"
             >
               <h3>Avaliable balance: {winning}</h3>
-              <div className="slot_spin button" onClick={() => withdraw()}>
+              <div className="slot_spin button windows-button" onClick={() => withdraw()}>
                 Withdraw
               </div>
             </div>

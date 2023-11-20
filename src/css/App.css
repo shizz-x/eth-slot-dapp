@@ -1,20 +1,4 @@
-.App {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 3rem;
-  overflow-x: hidden;
-}
-body {
-  color: #c3c3c3;
-  background-color: #d5d5d5;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  letter-spacing: 1px;
-  border-left: 5px solid rgb(21, 101, 213);
-  border-right: 5px solid rgb(21, 101, 213);
-  border-bottom: 5px solid rgb(21, 101, 213);
-  min-height: calc(100dvh - 5px);
-}
+
 
 .icon_of_win {
   display: flex;
@@ -29,11 +13,10 @@ body {
   display: flex;
   padding: 1rem;
   border-radius: 13px;
-  gap: 2.5rem;
-  justify-content: center;
+  
+  justify-content: space-between;
   color: #000;
   font-weight: 900;
-  background-color: #0377fc;
 }
 .history_rows {
   margin: 10px 0;
@@ -47,7 +30,6 @@ body {
   justify-content: center;
   margin-top: 2rem;
   gap: 1rem;
-  padding: 0 3rem 0 3rem;
 }
 .history_content {
   width: auto;
@@ -128,10 +110,29 @@ body {
     transform: translateX(0px);
   }
 }
+.player_layer{
+  position: absolute;
+  width: 100dvw;
+  height: 100dvh;
+ 
+}
 .history_content p img {
   width: 1.2rem;
   height: 1.2rem;
   margin-right: 10px;
+}
+.Toastify__toast-body > div:last-child{
+  font-family: w8;
+  font-size: 1rem;
+}
+.Toastify__toast-theme--light {
+  border-radius: 0;
+  background: #c6c6c6 !important;
+  color: #fff !important;
+  border-top: 2px solid #c0c0c0;
+  border-left: 2px solid #c0c0c0;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
 }
 .history_content h1 {
   font-size: 1.8rem;
@@ -151,6 +152,7 @@ body {
   width: 100%;
   justify-content: center;
   gap: 1rem;
+  margin-top: 3rem;
 }
 .slot_spin {
   padding: 0.5rem;
@@ -182,11 +184,14 @@ input[type="number"] {
   gap: 1rem;
   background-color: #0377fc;
   padding: 1rem;
-  border-radius: 13px;
   justify-content: center;
   max-width: 500px;
   align-items: center;
   flex-direction: column;
+  border-top: 2px solid #c0c0c0;
+  border-left: 2px solid #c0c0c0;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
 }
 
 .mobileNotSupports {
@@ -225,10 +230,9 @@ input[type="number"] {
   margin: 0 1rem;
 }
 .slots_wrapper {
-  position: absolute;
   width: 100%;
   align-items: center;
-  min-width: 900px;
+  min-width: auto;
   /* min-height: 350px; */
   max-height: 450px;
   display: flex;
@@ -318,27 +322,7 @@ input[type="number"] {
   }
 }
 
-header {
-  background: rgb(21, 101, 213);
-  /* background: linear-gradient(
-    90deg,
-    rgba(13, 0, 235, 1) 0%,
-    rgba(5, 125, 247, 1) 32%,
-    rgba(0, 212, 255, 1) 100%
-  ); */
-  border-bottom: 3px solid #0377fc;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-.header_content {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 700;
-  padding: 10px 20px;
-}
+
 .button {
   background: rgb(6, 151, 255);
   background: linear-gradient(
@@ -397,3 +381,5 @@ header {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+
