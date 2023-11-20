@@ -1,26 +1,32 @@
 {
   "files": {
-    "main.css": "./static/css/main.c6496b8f.css",
-    "main.js": "./static/js/main.e982713c.js",
-    "static/js/845.084a7763.chunk.js": "./static/js/845.084a7763.chunk.js",
+    "main.css": "./static/css/main.4a0e8e3c.css",
+    "main.js": "./static/js/main.f91da217.js",
+    "static/js/845.c3fe7eb8.chunk.js": "./static/js/845.c3fe7eb8.chunk.js",
+    "static/media/Moonlight Densetsu - Save up for a rainy day.mp3": "./static/media/Moonlight Densetsu - Save up for a rainy day.12445c3626c8ed9ad4b5.mp3",
+    "static/media/Lythx, rufflws - Lythx The Cruel Angel's Thesis.mp3": "./static/media/Lythx, rufflws - Lythx The Cruel Angel's Thesis.e083929a2531b5eed46b.mp3",
+    "static/media/ReggaeOne-Regular.ttf": "./static/media/ReggaeOne-Regular.90a023f683f8cd4c0e7a.ttf",
+    "static/media/secbg.jpg": "./static/media/secbg.f800cfc66b5bc9c01d1e.jpg",
+    "static/media/sailor2.ico": "./static/media/sailor2.7dabc1dd28d5913d431b.ico",
+    "static/media/windows-98.ttf": "./static/media/windows-98.ea8cdbcc349b134e0f7b.ttf",
     "static/media/ape.svg": "./static/media/ape.5d53bb162645459b9a31ccdcd4cc372f.svg",
     "static/media/sniff.mp3": "./static/media/sniff.cb4cd8c3b013ffeb69ce.mp3",
+    "static/media/MS Sans Serif.ttf": "./static/media/MS Sans Serif.93905f8d36305f50ab93.ttf",
+    "static/media/px_sans_nouveaux.woff2": "./static/media/px_sans_nouveaux.8c8dce2ef2bb84287d2d.woff2",
     "static/media/btc.svg": "./static/media/btc.93237c243cd50f504bda074a8090b1d1.svg",
     "static/media/usdt.svg": "./static/media/usdt.b8dd2f5486d3e522c5e932a250a28998.svg",
-    "static/media/lost.svg": "./static/media/lost.5dc54a57ebd0e0e1ba316db3320ee9f5.svg",
     "static/media/ltc.svg": "./static/media/ltc.850ce1e6457ad464544c8ffbc7d908c4.svg",
     "static/media/dash.svg": "./static/media/dash.96b2c944a9626ae9163337667ab443df.svg",
     "static/media/xrp.svg": "./static/media/xrp.33724666ec714727cbee851a123fe941.svg",
-    "static/media/checked.svg": "./static/media/checked.422cd21061b002c2834bddf92f17a214.svg",
     "index.html": "./index.html",
     "static/media/eth.svg": "./static/media/eth.c378096feb767dfd5337d2354cf83662.svg",
     "static/media/bnb.svg": "./static/media/bnb.8a04be77e7cbae1c1a093084a7dd30bb.svg",
-    "main.c6496b8f.css.map": "./static/css/main.c6496b8f.css.map",
-    "main.e982713c.js.map": "./static/js/main.e982713c.js.map",
-    "845.084a7763.chunk.js.map": "./static/js/845.084a7763.chunk.js.map"
+    "main.4a0e8e3c.css.map": "./static/css/main.4a0e8e3c.css.map",
+    "main.f91da217.js.map": "./static/js/main.f91da217.js.map",
+    "845.c3fe7eb8.chunk.js.map": "./static/js/845.c3fe7eb8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c6496b8f.css",
-    "static/js/main.e982713c.js"
+    "static/css/main.4a0e8e3c.css",
+    "static/js/main.f91da217.js"
   ]
 }
