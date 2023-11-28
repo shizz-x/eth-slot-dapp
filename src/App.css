@@ -4,8 +4,8 @@ input {
 }
 body {
   font-size: 28px;
-  cursor: url("http://www.rw-designer.com/cursor-extern.php?id=111497"), default !important;
-  font-family: "w8";
+  cursor: url("https://cdn.custom-cursor.com/db/9018/32/starter-pixel-ice-cursor.png") , default !important;
+    font-family: "w8";
   max-height: 100dvh;
 }
 .icons_wrapper {
