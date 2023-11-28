@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "./static/css/main.760bb56a.css",
+    "main.css": "./static/css/main.96f687fa.css",
     "main.js": "./static/js/main.18b1af1f.js",
     "static/js/845.c3fe7eb8.chunk.js": "./static/js/845.c3fe7eb8.chunk.js",
     "static/media/Moonlight Densetsu - Save up for a rainy day.mp3": "./static/media/Moonlight Densetsu - Save up for a rainy day.12445c3626c8ed9ad4b5.mp3",
@@ -21,12 +21,12 @@
     "static/media/dash.svg": "./static/media/dash.fe7c513e67226cd55a71528ca93a0286.svg",
     "static/media/eth.svg": "./static/media/eth.97a8e5b5de5c3917d76354647a890329.svg",
     "index.html": "./index.html",
-    "main.760bb56a.css.map": "./static/css/main.760bb56a.css.map",
+    "main.96f687fa.css.map": "./static/css/main.96f687fa.css.map",
     "main.18b1af1f.js.map": "./static/js/main.18b1af1f.js.map",
     "845.c3fe7eb8.chunk.js.map": "./static/js/845.c3fe7eb8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.760bb56a.css",
+    "static/css/main.96f687fa.css",
     "static/js/main.18b1af1f.js"
   ]
 }
