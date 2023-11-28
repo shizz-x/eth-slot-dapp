@@ -14,8 +14,8 @@ body {
   left: 0;
   padding: 15px;
   display: flex;
-  flex-direction: column;
   color: #f4f4f4;
+  height: fit-content;
 }
 .ico {
   padding: 15px;
@@ -25,6 +25,7 @@ body {
   flex-direction: column;
   width: 70px;
   text-align: center;
+  height: fit-content;
 }
 .ico:hover {
   background-color: rgba(255, 255, 255, 0.1);
@@ -35,6 +36,10 @@ body {
 .ico p {
   margin: 0;
   font-size: 20px;
+  background-color: #000;
+}
+.start-bar-window.timer{
+  float: right;
 }
 .wallet_interface{
   margin: 1rem 0 ;
@@ -51,13 +56,15 @@ body {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 0;
-  left: 0;
+  right: 50%;
+  left: 40%;
+  top: 10%;
   width: 600px;
   resize: both;
-  left: 300px;
   min-height: 700px;
-  min-width: 560px;
+  min-width: 590px;
+  max-width: 950px;
+  max-height: 1000px;
   font-weight: 400;
   letter-spacing: .025em;
   font-smoothing: never;
@@ -90,15 +97,20 @@ button {
   right: 50%;
   transform: translate(-50%, -50%);
   color: rgb(40, 254, 20);
-  background-image: url("./Media/Images/secbg.jpg");
+  background-image: url("./Media/Images/snowbg2.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+.timer-wrap{
+  width: 100%;
+  padding-right: 10px;
 }
 .start-bar {
   padding: 2px;
   box-shadow: inset 1px 0 #fff;
   display: flex;
+  
   align-items: center;
   background-color: silver;
   align-items: center;
@@ -128,9 +140,9 @@ button {
   border-right: 1px solid gray;
   border-bottom: 1px solid gray;
   box-shadow: inset 1px 1px #dfdfdf, 1px 0 #000, 0 1px #000, 1px 1px #000;
-  min-width: 59px;
+  min-width: 100px;
   margin-right: 6px;
-
+  
   color: #000;
 }
 .start-button {
@@ -205,14 +217,13 @@ header span{ font-size: 1.2rem; }
   height: calc(92.5% - 50px);
 }
 .display_inner_content{
-  background-color: #000;
+  background-color: #d8d8d8;
   width: calc(100%-10px);
   height: 100%;
   border-left: 2px solid #404040;
     border-top: 2px solid #404040;
     border-right: 2px solid #f4f4f4;
     border-bottom: 2px solid #f4f4f4;
-    background: #fff;
   overflow: hidden;
   overflow-y: scroll;
 }

@@ -41,7 +41,7 @@ export default function Icons() {
   
   return (
     <>
-    <div className="player_layer">
+    <div id="PLAYER" className="player_layer">
       <div className="player"><p>{trackName(currentTrack)}</p>
       <input value={volume} step={0.01} onChange={handleChangeValue} min={0} max={1} ste type="range" name="" id="" />
       <div className="windows-button " onClick={()=>plaing ? stopPlay() : startPlay()}>{plaing ? "Stop" : "Play"}</div>

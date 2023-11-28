@@ -9,7 +9,7 @@ import Dragger from "../Utils/Dragger";
 export default function MainWindow(p) {
 
   useEffect(()=>{
-    if (!p.mod){
+    if (!p.mob){
       new Dragger("APP", "HEAD", 600, 400);
     }
   }, [])
@@ -17,7 +17,7 @@ export default function MainWindow(p) {
   return (
     <div className="App" id="APP">
       <header id="HEAD">
-        <span>Kakegurui Slot Machine</span>
+        <span>SDL9000</span>
         <div className="controllers">
           <div className="windows-button" data="black"><img src={QuestionButton} alt="" srcset="" /></div>
           <div className="windows-button" data="black"><img src={CloseButton} alt="" srcset="" /></div>

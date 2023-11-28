@@ -7,6 +7,10 @@
   flex-direction: column-reverse;
   gap: 0.5rem;
   width: 2rem;
+  height: 2rem;
+}
+.icon_of_win img{
+  width: 100%;
 }
 .icons_of_win_content {
   width: auto;
@@ -182,7 +186,7 @@ input[type="number"] {
 .slot_controls {
   display: flex;
   gap: 1rem;
-  background-color: #0377fc;
+  background-color: #c6c6c6;
   padding: 1rem;
   justify-content: center;
   max-width: 500px;
@@ -226,8 +230,15 @@ input[type="number"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 1s;
-  margin: 0 1rem;
+  transition: all .5s;
+  padding: 0 1rem;
+  border-top: 2px solid #efefef;
+  border-left: 2px solid #efefef;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+.slot_cell:hover{
+  transform: scale(0.9);
 }
 .slots_wrapper {
   width: 100%;
@@ -237,13 +248,20 @@ input[type="number"] {
   max-height: 450px;
   display: flex;
   justify-content: center;
+  
 }
 .slots_web {
-  width: 560px;
+  width: 580px;
   display: flex;
   overflow: hidden;
   flex-direction: column-reverse;
   min-height: 18rem;
+  background-color: #c6c6c6;
+  border-top: 2px solid #efefef;
+  border-left: 2px solid #efefef;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px;
 }
 .flow {
   animation: flow 1600ms infinite;
