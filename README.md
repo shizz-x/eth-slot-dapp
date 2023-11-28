@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# eth-slot-dapp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### [build](https://shizz-x.github.io/eth-slot-dapp/build/)
+### [sepolia](https://sepolia.etherscan.io/address/0xB2FF2a48cB6E1FeE09d2dd3a38175eC65d51dA38)
 
-## Available Scripts
 
-In the project directory, you can run:
+Spins all erc20 tokens [PREVIEW VIDEO](https://youtu.be/0wnJCGQI0pc)
 
-### `yarn start`
+## Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [Introduction](#introduction)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Test](#Test)
+- [Smart Contract](#smart-contract)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Introduction
 
-### `yarn test`
+This application allows you to play the slot for the token specified at the build stage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `yarn build`
+- Live transactions
+- Сhange in the amount and percentage of winnings after the deposit of the contract
+- Using any erc20 tokens
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The first step is to install dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+cd path
+```
 
-### `yarn eject`
+```bash
+yarn
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Now you need to change the network in src/net/rpc
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Go to the [remix](http://remix.ethereum.org/) and deploy GamblingContract.sol.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Update newly created contract address in src/net/ABI/SlotContracAddress.jsx
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Transfer the tokens that the application will use to the newly created contract.
 
-## Learn More
+Update the token address that you transferred in src/net/ABI/SpendedTokenAddress.jsx
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Now you can build and deploy
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+yarn build
+```
 
-### Code Splitting
+### Test
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+You can simply build a project from the repository and test the applications, before that you need to create your token on the Sepolia network and transfer it to the contract
 
-### Analyzing the Bundle Size
+```bash
+yarn start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Smart Contract
 
-### Making a Progressive Web App
+## Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 1. Game Mechanics
 
-### Advanced Configuration
+- Users can participate in the game by calling the `play` function, providing an ERC-20 token address and an amount they want to wager.
+- The contract uses a random number generated from a combination of factors, including the current timestamp, sender's address, and game history to determine the game's outcome.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 2. Payouts
 
-### Deployment
+- The game offers different payout percentages based on the outcome, allowing users to potentially win various multiples of their wagered amount.
+- Payout percentages are adjustable and can be modified by the contract owner.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 3. Data Storage
 
-### `yarn build` fails to minify
+- The contract maintains a record of the user's game history, including the percentage won, the amount won, the random result, and whether the user was a winner or loser.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 4. Ownership Control
+
+- The contract has an owner who can perform specific administrative functions such as modifying the payout percentages, withdrawing funds, and transferring ownership.
+
+### 5. Withdrawals
+
+- Users who have won the game can withdraw their winnings in the same ERC-20 token they used to participate.
+
+## Functions
+
+The following are the key functions provided by the `GamblingContract`:
+
+- `play(address tokenAddress, uint256 amount)`: Allows users to participate in the game by wagering a specified amount of an ERC-20 token.
+
+- `withdraw(address tokenAddress)`: Enables users to withdraw their winnings in the chosen ERC-20 token.
+
+- `ownerWithdraw(address tokenAddress, uint256 amount)`: Allows the contract owner to withdraw funds from the contract.
+
+- `transferOwner(address newOwner)`: Enables the current owner to transfer ownership of the contract to another address.
+
+- `changeWinRate(uint[] memory percentage)`: Permits the owner to adjust the payout percentages for different outcomes.
+
+- `changePercents(uint[] memory percentage)`: Allows the owner to modify the specific payout percentages.
+
+- `getGameHistory(address user)`: Provides users with access to their game history, including the outcomes and results of their previous games.
+
+- `getWinning(address user)`: Allows users to check their current winnings in the game.
